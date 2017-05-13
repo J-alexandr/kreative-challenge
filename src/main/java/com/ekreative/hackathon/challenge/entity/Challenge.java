@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -16,6 +18,15 @@ public class Challenge extends BasicEntity {
     private Double averageRating;
     private User creator;
     private LocalDateTime created;
+    private Boolean hidden;
+
+    private List<User> participants = new ArrayList<>();
+
+    public void addParticipant(User user) {
+        if (!participants.contains(user)) {
+            participants.add(user);
+        }
+    }
 
     @Override
     public boolean equals(Object o) {
