@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Kreative Challenge | Challenges</title>
+    <link rel="stylesheet" th:href="@{~/css/main.css}"/>
+</head>
+<body>
+
+<h1><span class="blue">&lt;</span>Kreative<span class="blue">&gt;</span> <span class="yellow">Challenge</span></h1>
+<h2><img width="260" height="110" th:src="@{~/images/GooglePlay.png}"/></h2>
+<h2>Challenges statistics</h2>
+
+<table class="container">
+    <thead>
+    <tr>
+        <th><h1>Title</h1></th>
+        <th><h1>Description</h1></th>
+        <th><h1>Completed times</h1></th>
+        <th><h1>Average rating</h1></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="challenge : ${challenges}">
+        <td th:text="${challenge.title}"></td>
+        <td th:text="${challenge.description}"></td>
+        <td th:text="${challenge.participants.size()}"></td>
+        <td th:text="${challenge.averageRating}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
