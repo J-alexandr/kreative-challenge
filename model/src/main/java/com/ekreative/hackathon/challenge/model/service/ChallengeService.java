@@ -16,15 +16,27 @@ public class ChallengeService {
     }
 
     public Collection<Challenge> findAllCompletedChallengesByUserId(int userId) {
-        return challengeRepository.findAllCompletedChallengesByUserId(userId);
+        Collection<Challenge> challenges = challengeRepository.findAllCompletedChallengesByUserId(userId);
+        for (Challenge challenge : challenges) {
+            pullAllParticipants(challenge);
+        }
+        return challenges;
     }
 
     public Collection<Challenge> findAllChallengesCreatedByUserId(int userId) {
-        return challengeRepository.findAllChallengesCreatedByUserId(userId);
+        Collection<Challenge> challenges = challengeRepository.findAllChallengesCreatedByUserId(userId);
+        for (Challenge challenge : challenges) {
+            pullAllParticipants(challenge);
+        }
+        return challenges;
     }
 
     public Collection<Challenge> findActive() {
-        return challengeRepository.findActive();
+        Collection<Challenge> challenges = challengeRepository.findActive();
+        for (Challenge challenge : challenges) {
+            pullAllParticipants(challenge);
+        }
+        return challenges;
     }
 
     public Challenge findById(int id) {
