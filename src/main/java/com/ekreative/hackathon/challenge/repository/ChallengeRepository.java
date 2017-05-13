@@ -28,7 +28,7 @@ public class ChallengeRepository implements BasicRepository<Challenge> {
                 .usingGeneratedKeyColumns("id");
     }
 
-    public Collection<Challenge> findAllCreatedChallengesByUserId(int userId) {
+    public Collection<Challenge> findAllChallengesCreatedByUserId(int userId) {
         Map<String, Object> params = new HashMap<>();
         params.put("user_id", userId);
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource(params);
@@ -63,6 +63,21 @@ public class ChallengeRepository implements BasicRepository<Challenge> {
         return this.namedParameterJdbcTemplate.query(
                 sql,
                 sqlParameterSource,
+                new ChallengeRowMapper()
+        );
+    }
+
+    public Collection<Challenge> findActive() {
+        String sql = "SELECT c.id AS challenge_id, c.title, c.description, c.longitude, c.latitude, c.hidden, " +
+                "c.creator_id, c.created AS challenge_created, " +
+                "(SELECT AVG(rate) FROM rating WHERE challenge_id=c.id) AS average_rating, " +
+                "u.id AS user_id, u.uuid, u.first_name, u.last_name, u.enabled, u.created AS user_created  " +
+                "FROM challenge c " +
+                "   LEFT JOIN users u ON u.id = c.creator_id " +
+                "WHERE c.hidden=FALSE";
+
+        return this.namedParameterJdbcTemplate.query(
+                sql,
                 new ChallengeRowMapper()
         );
     }

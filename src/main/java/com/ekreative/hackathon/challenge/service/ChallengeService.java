@@ -23,6 +23,14 @@ public class ChallengeService {
         return challengeRepository.findAllCompletedChallengesByUserId(userId);
     }
 
+    public Collection<Challenge> findAllChallengesCreatedByUserId(int userId) {
+        return challengeRepository.findAllChallengesCreatedByUserId(userId);
+    }
+
+    public Collection<Challenge> findActive() {
+        return challengeRepository.findActive();
+    }
+
     public Challenge findById(int id) {
         Challenge challenge = challengeRepository.findById(id);
         pullAllParticipants(challenge);

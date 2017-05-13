@@ -71,7 +71,7 @@ public class UserService {
     }
 
     private void pullCreatedChallengesByUser(User user) {
-        Collection<Challenge> allCompletedChallengesByUserId = challengeRepository.findAllCreatedChallengesByUserId(user.getId());
+        Collection<Challenge> allCompletedChallengesByUserId = challengeRepository.findAllChallengesCreatedByUserId(user.getId());
         for (Challenge challenge : allCompletedChallengesByUserId) {
             user.addCreatedChallenge(challenge);
         }
