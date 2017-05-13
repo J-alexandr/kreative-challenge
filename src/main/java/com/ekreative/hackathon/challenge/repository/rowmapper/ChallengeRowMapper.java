@@ -18,6 +18,7 @@ public class ChallengeRowMapper implements RowMapper<Challenge> {
         challenge.setLongitude(rs.getDouble("longitude"));
         challenge.setLatitude(rs.getDouble("latitude"));
         challenge.setAverageRating(rs.getDouble("average_rating"));
+        challenge.setHidden(rs.getBoolean("hidden"));
         if (rs.getLong("challenge_created") != 0) {
             challenge.setCreated(LocalDateTimeUtils.toLocalDateTime(rs.getLong("challenge_created")));
         }

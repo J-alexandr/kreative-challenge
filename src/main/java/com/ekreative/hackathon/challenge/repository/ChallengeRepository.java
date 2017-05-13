@@ -28,16 +28,35 @@ public class ChallengeRepository implements BasicRepository<Challenge> {
                 .usingGeneratedKeyColumns("id");
     }
 
+    public Collection<Challenge> findAllCreatedChallengesByUserId(int userId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("user_id", userId);
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource(params);
+        String sql = "SELECT c.id AS challenge_id, c.title, c.description, c.longitude, c.latitude, c.hidden, " +
+                "c.creator_id, c.created AS challenge_created, " +
+                "(SELECT AVG(rate) FROM rating WHERE challenge_id=c.id) AS average_rating, " +
+                "u.id AS user_id, u.uuid, u.first_name, u.last_name, u.enabled, u.created AS user_created  " +
+                "FROM challenge c " +
+                "   LEFT JOIN users u ON u.id = c.creator_id " +
+                "WHERE c.creator_id=:user_id";
+
+        return this.namedParameterJdbcTemplate.query(
+                sql,
+                sqlParameterSource,
+                new ChallengeRowMapper()
+        );
+    }
+
     public Collection<Challenge> findAllCompletedChallengesByUserId(int userId) {
         Map<String, Object> params = new HashMap<>();
         params.put("user_id", userId);
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource(params);
-        String sql = "SELECT c.id AS challenge_id, c.title, c.description, c.longitude, c.latitude, " +
+        String sql = "SELECT c.id AS challenge_id, c.title, c.description, c.longitude, c.latitude, c.hidden, " +
                 "c.creator_id, c.created AS challenge_created, " +
                 "(SELECT AVG(rate) FROM rating WHERE challenge_id=c.id) AS average_rating, " +
                 "u.id AS user_id, u.uuid, u.first_name, u.last_name, u.enabled, u.created AS user_created  " +
                 "FROM complete_challenge cc" +
-                "   LEFT JOIN challenge c ON c.id=:challenge_id " +
+                "   LEFT JOIN challenge c ON c.id=cc.challenge_id " +
                 "   LEFT JOIN users u ON u.id = c.creator_id " +
                 "WHERE cc.user_id=:user_id";
 
@@ -53,13 +72,13 @@ public class ChallengeRepository implements BasicRepository<Challenge> {
         Map<String, Object> params = new HashMap<>();
         params.put("id", id);
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource(params);
-        String sql = "SELECT c.id AS challenge_id, c.title, c.description, c.longitude, c.latitude, " +
+        String sql = "SELECT c.id AS challenge_id, c.title, c.description, c.longitude, c.latitude, c.hidden, " +
                 "c.creator_id, c.created AS challenge_created, " +
                 "(SELECT AVG(rate) FROM rating WHERE challenge_id=c.id) AS average_rating, " +
                 "u.id AS user_id, u.uuid, u.first_name, u.last_name, u.enabled, u.created AS user_created  " +
                 "FROM challenge c " +
-                "LEFT JOIN users u ON u.id = c.creator_id " +
-                "WHERE u.id=:id";
+                "   LEFT JOIN users u ON u.id = c.creator_id " +
+                "WHERE c.id=:id";
 
         try {
             return this.namedParameterJdbcTemplate.queryForObject(
@@ -74,12 +93,12 @@ public class ChallengeRepository implements BasicRepository<Challenge> {
 
     @Override
     public Collection<Challenge> findAll() {
-        String sql = "SELECT c.id AS challenge_id, c.title, c.description, c.longitude, c.latitude, " +
+        String sql = "SELECT c.id AS challenge_id, c.title, c.description, c.longitude, c.latitude, c.hidden, " +
                 "c.creator_id, c.created AS challenge_created, " +
                 "(SELECT AVG(rate) FROM rating WHERE challenge_id=c.id) AS average_rating, " +
                 "u.id AS user_id, u.uuid, u.first_name, u.last_name, u.enabled, u.created AS user_created  " +
                 "FROM challenge c " +
-                "LEFT JOIN users u ON u.id = c.creator_id";
+                "   LEFT JOIN users u ON u.id = c.creator_id";
 
         return this.namedParameterJdbcTemplate.query(
                 sql,
@@ -109,6 +128,7 @@ public class ChallengeRepository implements BasicRepository<Challenge> {
         params.put("longitude", challenge.getLongitude());
         params.put("latitude", challenge.getLatitude());
         params.put("creator_id", challenge.getCreator().getId());
+        params.put("hidden", challenge.getHidden());
 
         if (challenge.getCreated() != null) {
             params.put("created", LocalDateTimeUtils.toLong(challenge.getCreated()));
@@ -129,6 +149,7 @@ public class ChallengeRepository implements BasicRepository<Challenge> {
         params.put("longitude", challenge.getLongitude());
         params.put("latitude", challenge.getLatitude());
         params.put("creator_id", challenge.getCreator().getId());
+        params.put("hidden", challenge.getHidden());
 
         if (challenge.getCreated() != null) {
             params.put("created", LocalDateTimeUtils.toLong(challenge.getCreated()));
@@ -139,7 +160,7 @@ public class ChallengeRepository implements BasicRepository<Challenge> {
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource(params);
         String sql = "UPDATE challenge " +
                 "SET title=:title, description=:descrition, longitude=:longitude, latitude=:latitude, " +
-                "creator_id=:creator_id, created=:created " +
+                "creator_id=:creator_id, created=:created, hidden=:hidden " +
                 "WHERE id=:id";
 
         this.namedParameterJdbcTemplate.update(
