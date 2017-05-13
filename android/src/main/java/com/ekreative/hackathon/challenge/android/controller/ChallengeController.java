@@ -1,5 +1,6 @@
 package com.ekreative.hackathon.challenge.android.controller;
 
+import com.ekreative.hackathon.challenge.android.entity.AndroidChallenge;
 import com.ekreative.hackathon.challenge.model.entity.Challenge;
 import com.ekreative.hackathon.challenge.model.entity.Rating;
 import com.ekreative.hackathon.challenge.model.entity.User;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @RestController
@@ -27,17 +29,23 @@ public class ChallengeController {
     }
 
     @GetMapping("/all")
-    public Collection<Challenge> getChallenges() {
-        return challengeService.findActive();
+    public Collection<AndroidChallenge> getChallenges() {
+        Collection<Challenge> challenges = challengeService.findActive();
+        Collection<AndroidChallenge> androidChallenges = new ArrayList<>();
+        for (Challenge challenge : challenges) {
+            AndroidChallenge androidChallenge = decorateChallenge(challenge);
+            androidChallenges.add(androidChallenge);
+        }
+        return androidChallenges;
     }
 
     @GetMapping("/{challengeId}")
-    public Challenge getChallenge(@PathVariable Integer challengeId) {
-        return challengeService.findById(challengeId);
+    public AndroidChallenge getChallenge(@PathVariable Integer challengeId) {
+        return decorateChallenge(challengeService.findById(challengeId));
     }
 
     @PostMapping("/add")
-    public Challenge createChallenge(@RequestParam String title,
+    public AndroidChallenge createChallenge(@RequestParam String title,
                                      @RequestParam String description,
                                      @RequestParam Double longitude,
                                      @RequestParam Double latitude,
@@ -54,15 +62,15 @@ public class ChallengeController {
         challenge.setCreator(user);
 
         challengeService.save(challenge);
-        return challenge;
+        return decorateChallenge(challenge);
     }
 
     @PostMapping("/{challengeId}/complete")
-    public Challenge completeChallenge(@PathVariable Integer challengeId, @RequestHeader String UUID) {
+    public AndroidChallenge completeChallenge(@PathVariable Integer challengeId, @RequestHeader String UUID) {
         User user = userService.findByUuid(UUID);
         Challenge challenge = challengeService.findById(challengeId);
         userService.saveCompleteChallenge(user, challenge);
-        return challenge;
+        return decorateChallenge(challenge);
     }
 
     @DeleteMapping("/{challengeId}/delete")
@@ -73,7 +81,6 @@ public class ChallengeController {
             challenge.setHidden(true);
             challengeService.save(challenge);
         }
-        // TODO: 13.05.2017 response with status code
     }
 
     @PostMapping("/{challengeId}/rate")
@@ -86,5 +93,9 @@ public class ChallengeController {
         userRating.setUser(user);
         ratingService.save(userRating);
         return userRating;
+    }
+
+    private AndroidChallenge decorateChallenge(Challenge challenge) {
+        return new AndroidChallenge(challenge);
     }
 }
