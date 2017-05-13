@@ -20,13 +20,16 @@ public class HeaderBasedSecurityFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        try {
-            String uuid = httpRequest.getHeader("UUID");
-            userService.findByUuid(uuid);
-            chain.doFilter(request, response);
-        } catch (Exception e) {
-            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "The token is not valid.");
+        String path = ((HttpServletRequest) request).getRequestURI();
+        if (!path.equals("/register")) {
+            HttpServletRequest httpRequest = (HttpServletRequest) request;
+            try {
+                String uuid = httpRequest.getHeader("UUID");
+                userService.findByUuid(uuid);
+            } catch (Exception e) {
+                ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "The token is not valid.");
+            }
         }
+        chain.doFilter(request, response);
     }
 }

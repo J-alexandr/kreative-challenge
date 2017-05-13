@@ -42,7 +42,6 @@ public class ChallengeController {
                                      @RequestParam Double longitude,
                                      @RequestParam Double latitude,
                                      @RequestHeader String UUID) {
-        // TODO: 13.05.2017 add validation
         Challenge challenge = new Challenge();
         challenge.setTitle(title);
         challenge.setDescription(description);
