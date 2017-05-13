@@ -63,6 +63,10 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void saveCompleteChallenge(User user, Challenge challenge) {
+        userRepository.saveCompleteChallenge(user, challenge);
+    }
+
     private void pullCompletedChallengesByUser(User user) {
         Collection<Challenge> allCompletedChallengesByUserId = challengeRepository.findAllCompletedChallengesByUserId(user.getId());
         for (Challenge challenge : allCompletedChallengesByUserId) {

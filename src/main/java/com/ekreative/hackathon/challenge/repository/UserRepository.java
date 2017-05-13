@@ -1,5 +1,6 @@
 package com.ekreative.hackathon.challenge.repository;
 
+import com.ekreative.hackathon.challenge.entity.Challenge;
 import com.ekreative.hackathon.challenge.entity.User;
 import com.ekreative.hackathon.challenge.repository.exception.EntityNotFoundException;
 import com.ekreative.hackathon.challenge.repository.rowmapper.UserRowMapper;
@@ -112,6 +113,19 @@ public class UserRepository implements BasicRepository<User> {
     public void remove(User user) {
         String sql = "DELETE FROM users WHERE id=:id";
         this.remove(sql, user.getId(), namedParameterJdbcTemplate);
+    }
+
+    public void saveCompleteChallenge(User user, Challenge challenge) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("user_id", user.getId());
+        params.put("challenge_id", challenge.getId());
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource(params);
+        String sql = "INSERT INTO complete_challenge (user_id, challenge_id) VALUES (:user_id, :challenge_id) ON CONFLICT DO NOTHING";
+
+        this.namedParameterJdbcTemplate.update(
+                sql,
+                sqlParameterSource
+        );
     }
 
     @Override
