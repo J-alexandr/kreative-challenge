@@ -10,7 +10,6 @@
 <body>
 
 <h1><span class="blue">&lt;</span>Kreative<span class="blue">&gt;</span> <span class="yellow">Challenge</span></h1>
-<h2><img width="260" height="110" th:src="@{~/images/GooglePlay.png}"/></h2>
 <h2>Users statistics</h2>
 
 <table class="container">
@@ -26,10 +25,13 @@
     <tr th:each="user : ${users}">
         <td th:text="${user.firstName}"></td>
         <td th:text="${user.lastName}"></td>
-        <td th:text="${user.completedChallenges.size()}"></td>
-        <td th:text="${user.createdChallenges.size()}"></td>
+        <td align="center" th:text="${user.completedChallenges.size()}"></td>
+        <td align="center" th:text="${user.createdChallenges.size()}"></td>
     </tr>
     </tbody>
 </table>
+
+<h2><img width="260" height="110" th:src="@{~/images/GooglePlay.png}"/></h2>
+
 </body>
 </html>

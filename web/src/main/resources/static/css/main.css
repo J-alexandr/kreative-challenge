@@ -18,12 +18,11 @@ h1 {
 }
 
 h2 {
-    font-size: 1em;
+    font-size: 2em;
     font-weight: 300;
     text-align: center;
     display: block;
     line-height: 1em;
-    padding-bottom: 2em;
     color: #FB667A;
 }
 
@@ -63,7 +62,7 @@ h2 a {
     width: 80%;
     margin: 0 auto;
     display: table;
-    padding: 0 0 8em 0;
+    padding: 0 0 0 0;
 }
 
 .container td, .container th {
@@ -117,3 +116,28 @@ h2 a {
         display: none;
     }
 }
+
+
+section button {
+    margin: 1em auto;
+    font-size: 2.0rem;
+    padding: 1.25rem 2.5rem;
+    display: block;
+    background-color: #009ac9;
+    border: 1px solid transparent;
+    color: #ffffff;
+    font-weight: 300;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+section button:hover {
+    background-color: #ffffff;
+    color: #009ac9;
+    border-color: #009ac9;
+}
+
+
