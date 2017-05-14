@@ -17,7 +17,6 @@ public class AndroidChallenge {
     private Double averageRating;
     private User creator;
     private Long created;
-    private Boolean hidden;
 
     public AndroidChallenge(Challenge challenge) {
         this.id = challenge.getId();
