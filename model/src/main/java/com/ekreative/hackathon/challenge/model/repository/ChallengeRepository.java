@@ -172,7 +172,7 @@ public class ChallengeRepository implements BasicRepository<Challenge> {
 
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource(params);
         String sql = "UPDATE challenge " +
-                "SET title=:title, description=:descrition, longitude=:longitude, latitude=:latitude, " +
+                "SET title=:title, description=:description, longitude=:longitude, latitude=:latitude, " +
                 "creator_id=:creator_id, created=:created, hidden=:hidden " +
                 "WHERE id=:id";
 

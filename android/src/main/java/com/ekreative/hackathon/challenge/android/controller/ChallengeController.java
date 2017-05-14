@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/challenge")
@@ -36,7 +38,9 @@ public class ChallengeController {
             AndroidChallenge androidChallenge = decorateChallenge(challenge);
             androidChallenges.add(androidChallenge);
         }
-        return androidChallenges;
+        return androidChallenges.stream()
+                .sorted(Comparator.comparingDouble(AndroidChallenge::getAverageRating).reversed())
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{challengeId}")
