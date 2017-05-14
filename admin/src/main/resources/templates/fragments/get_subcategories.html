@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Kreative Challenge Admin | Subcategories</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<script>
+    var loadCategories = function () {
+        var categoryId = $('#category').val();
+        $.ajax({
+            url: "../../../panel/items/subcategories?categoryId=" + categoryId,
+            success: function (data) {
+                var jsonSubcategories = JSON.parse(data);
+
+                var subcategorySelect = $('#subcategory');
+                subcategorySelect.empty();
+                $.each(jsonSubcategories, function (i, item) {
+                    subcategorySelect.append($("<option></option>")
+                        .attr("value", item.id)
+                        .text(item.name)
+                    );
+                });
+            }
+        });
+    }
+
+    $('#category').on('change', loadCategories);
+
+    $(document).ready(loadCategories);
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Kreative Challenge Admin | Challenges</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"/>
+    <link rel="stylesheet" th:href="@{~/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{~/plugins/datatables/dataTables.bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{~/css/AdminLTE.min.css}"/>
+    <link rel="stylesheet" th:href="@{~/css/skins/_all-skins.min.css}"/>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+
+<header class="main-header" th:include="fragments/header :: header"></header>
+
+<aside class="main-sidebar" th:include="fragments/sidebar :: aside"></aside>
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1 th:text="${title}"></h1>
+        <ol class="breadcrumb">
+            <li><a><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active"> Challenges</li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-info">
+                    <div class="box-body">
+                        <div class="table-bordered table-hover">
+                            <form th:action="@{~/panel/challenges/save}" method="post" class="form">
+                                <div>
+                                    Title : <input name="title" type="text" th:value="${challenge.title}"/>
+                                </div>
+                                <div>
+                                    Description : <textarea name="description" th:text="${challenge.description}"></textarea>
+                                </div>
+                                <div>
+                                    <input type="hidden" name="id" th:value="${challenge.id}"/>
+                                    <input type="submit" value="Submit" class="btn btn-primary btn-block"/>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<footer class="main-footer" th:include="fragments/footer :: footer"></footer>
+
+<script th:src="@{~/plugins/jQuery/jquery-2.2.3.min.js}"></script>
+<script th:src="@{~/js/bootstrap.min.js}"></script>
+<script th:src="@{~/plugins/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{~/plugins/datatables/dataTables.bootstrap.min.js}"></script>
+<script th:src="@{~/plugins/slimScroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{~/plugins/fastclick/fastclick.js}"></script>
+<script th:src="@{~/js/app.min.js}"></script>
+<script th:src="@{~/js/demo.js}"></script>
+
+</body>
+</html>
