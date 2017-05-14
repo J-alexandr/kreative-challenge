@@ -21,7 +21,7 @@ public class HeaderBasedSecurityFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         String path = ((HttpServletRequest) request).getRequestURI();
-        if (!path.equals("/register")) {
+        if (!path.equals("/register") && !path.equals("/auth")) {
             HttpServletRequest httpRequest = (HttpServletRequest) request;
             try {
                 String uuid = httpRequest.getHeader("UUID");
