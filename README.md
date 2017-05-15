@@ -1,4 +1,4 @@
-The project is carried out within the Ekraeative hakaton
+The project is carried out within the Ekraeative hackathon
 
 This is gradle multimodule Spring based project. It contains three different modules, each module can stand as standalone web application on the different ports or even servers. Modules:
 - android - REST API server for android application
