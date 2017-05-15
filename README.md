@@ -1,9 +1,9 @@
 The project is carried out within the Ekraeative hakaton
 
 This is gradle multimodule Spring based project. It contains three different modules, each module can stand as standalone web application on the different ports or even servers. Modules:
-android - REST API server for android application
-admin - high privileges manage panel over users and challenges
-web - project homepage with some statistics
+- android - REST API server for android application
+- admin - high privileges manage panel over users and challenges
+- web - project homepage with some statistics
 
 Hackathon goals:
 - Android application to create, accept and rate challenges
