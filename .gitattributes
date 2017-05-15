@@ -1,1 +1,2 @@
 *.rb linguist-language=Java
+admin/src/main/resources/* linguist-vendored
